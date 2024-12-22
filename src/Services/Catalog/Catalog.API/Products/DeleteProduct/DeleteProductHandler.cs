@@ -1,33 +1,26 @@
-﻿using Catalog.API.Products.CreateProduct;
-using FluentValidation;
+﻿
+namespace Catalog.API.Products.DeleteProduct;
 
-namespace Catalog.API.Products.DeleteProduct
+public record DeleteProductCommand(Guid Id) : ICommand<DeleteProductResult>;
+public record DeleteProductResult(bool IsSuccess);
+
+public class DeleteProductCommandValidator : AbstractValidator<DeleteProductCommand>
 {
-    public record DeleteProductCommand(Guid Id) : ICommand<DeleteProductResult>;
-    public record DeleteProductResult(bool IsSuccess);
-
-    public class DeleteProductCommandValidator : AbstractValidator<DeleteProductCommand>
+    public DeleteProductCommandValidator()
     {
-        public DeleteProductCommandValidator()
-        {
-            RuleFor(x => x.Id).NotEmpty().WithMessage("Id is required");
-        }
+        RuleFor(x => x.Id).NotEmpty().WithMessage("Product ID is required");
     }
+}
 
-    internal class DeleteProductCommandHandler(IDocumentSession session, ILogger<DeleteProductCommandHandler> logger)
-        : ICommandHandler<DeleteProductCommand, DeleteProductResult>
+internal class DeleteProductCommandHandler
+    (IDocumentSession session)
+    : ICommandHandler<DeleteProductCommand, DeleteProductResult>
+{
+    public async Task<DeleteProductResult> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
     {
-        private readonly IDocumentSession _session = session;
-        private readonly ILogger<DeleteProductCommandHandler> _logger = logger;
+        session.Delete<Product>(command.Id);
+        await session.SaveChangesAsync(cancellationToken);
 
-        public async Task<DeleteProductResult> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("DeleteProductCommandHandler.Handle called with {@Command}", command);
-
-            _session.Delete<Product>(command.Id);
-            await _session.SaveChangesAsync(cancellationToken);
-
-            return new DeleteProductResult(true);
-        }
+        return new DeleteProductResult(true);
     }
 }

@@ -1,24 +1,19 @@
-﻿using Catalog.API.Products.GetProductById;
+﻿
+namespace Catalog.API.Products.GetProductByCategory;
 
-namespace Catalog.API.Products.GetProductByCategory
+public record GetProductByCategoryQuery(string Category) : IQuery<GetProductByCategoryResult>;
+public record GetProductByCategoryResult(IEnumerable<Product> Products);
+
+internal class GetProductByCategoryQueryHandler
+    (IDocumentSession session)
+    : IQueryHandler<GetProductByCategoryQuery, GetProductByCategoryResult>
 {
-    public record GetProductsByCategoryQuery(string category) : IQuery<GetProductsByCategoryResult>;
-
-    public record GetProductsByCategoryResult(IEnumerable<Product> Products);
-
-    internal class GetProductsByCategoryQueryHandler(IDocumentSession session, ILogger<GetProductByIdQueryHandler> logger)
-        : IQueryHandler<GetProductsByCategoryQuery, GetProductsByCategoryResult>
+    public async Task<GetProductByCategoryResult> Handle(GetProductByCategoryQuery query, CancellationToken cancellationToken)
     {
-        private readonly IDocumentSession _session = session;
-        private readonly ILogger<GetProductByIdQueryHandler> _logger = logger;
+        var products = await session.Query<Product>()
+            .Where(p => p.Category.Contains(query.Category))
+            .ToListAsync(cancellationToken);
 
-        public async Task<GetProductsByCategoryResult> Handle(GetProductsByCategoryQuery query, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("GetProductByCategoryQueryHandler.Handle called with {@Query}", query);
-
-            var products = await _session.Query<Product>().Where(p => p.Category.Contains(query.category)).ToListAsync(cancellationToken);
-
-            return new GetProductsByCategoryResult(products);
-        }
+        return new GetProductByCategoryResult(products);
     }
 }
