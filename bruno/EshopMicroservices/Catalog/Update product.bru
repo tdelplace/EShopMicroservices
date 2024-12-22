@@ -1,0 +1,22 @@
+meta {
+  name: Update product
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{catalog_url}}/products
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "0193c6d1-7734-4530-af25-53c64d315766",
+    "Name":"New Product A Updated",
+    "Category":["c1","c3"],
+    "Description":"New Product B description updated",
+    "ImageFile":"ImageFile Product B",
+    "Price":99
+  }
+}

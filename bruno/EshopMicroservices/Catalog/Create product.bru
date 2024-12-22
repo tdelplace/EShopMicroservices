@@ -1,0 +1,21 @@
+meta {
+  name: Create product
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{catalog_url}}/Products
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "Name":"New Product C",
+    "Category":["c1","c3"],
+    "Description":"New Product B description",
+    "ImageFile":"ImageFile Product B",
+    "Price":99
+  }
+}
