@@ -1,0 +1,11 @@
+meta {
+  name: Health check
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{catalog_url}}/health
+  body: none
+  auth: none
+}

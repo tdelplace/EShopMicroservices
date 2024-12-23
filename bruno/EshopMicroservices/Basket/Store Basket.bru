@@ -1,0 +1,35 @@
+meta {
+  name: Store Basket
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{basket_url}}/basket
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "Cart":{
+      "UserName": "tdl",
+      "Items": [
+        {
+          "Quantity": 3,
+          "Color": "Red",
+          "Price": 20,
+          "ProductId": "fc75b197-11a2-40c9-8101-c439c05da589",
+          "ProductName": "Test product"
+        },
+        {
+          "Quantity": 1,
+          "Color": "Blue",
+          "Price": 25,
+          "ProductId": "fc75b197-11a2-40c9-8101-c439c05da589",
+          "ProductName": "Test product"
+        }
+      ]
+    }
+  }
+}
