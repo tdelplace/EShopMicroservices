@@ -1,0 +1,33 @@
+meta {
+  name: Checkout
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{basket_url}}/basket/checkout
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "BasketCheckoutDto": {
+      "userName": "tdl",
+      "customerId": "189dc8dc-990f-48e0-a37b-e6f2b60b9d7d",
+      "firstName": "Thomas",
+      "lastName": "Delplace",
+      "emailAddress": "tdelplace@gmail.com",
+      "addressLine":"24 Rue Marcel Plasman",
+      "state":"",
+      "zipCode":"1440",
+      "country":"Belgium",
+      "cardName":"AMEX",
+      "cardNumber":"1234",
+      "cvv":"333",
+      "expiration":"test",
+      "paymentMethod":1,
+      "totalPrice": 2125
+    }
+  }
+}

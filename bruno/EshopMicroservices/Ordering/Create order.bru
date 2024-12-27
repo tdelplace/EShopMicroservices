@@ -1,0 +1,58 @@
+meta {
+  name: Create order
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{ordering_url}}/orders
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "Order": {
+      "customerId": "58c49479-ec65-4de2-86e7-033c546291aa",
+      "orderName": "ORD_5",
+      "shippingAddress": {
+        "firstName": "Thomas",
+        "lastName": "Delplace",
+        "emailAddress": "tdelplace@gmail.com",
+        "addressLine": "Rue de l'automne, 24",
+        "country": "Belgium",
+        "state": "Brussels",
+        "zipCode": "1050"
+      },
+      "billingAddress": {
+        "firstName": "Thomas",
+        "lastName": "Delplace",
+        "emailAddress": "tdelplace@gmail.com",
+        "addressLine": "Rue de l'automne, 24",
+        "country": "Belgium",
+        "state": "Brussels",
+        "zipCode": "1050"
+      },
+      "payment": {
+        "cardName": "Thomas",
+        "cardNumber": "5555555555554444",
+        "expiration": "12/28",
+        "cvv": "355",
+        "paymentMethod": 1
+      },
+      "status": 2,
+      "orderItems": [
+        {
+          "productId": "5334c996-8457-4cf0-815c-ed2b77c4ff61",
+          "quantity": 2,
+          "price": 400
+        },
+        {
+          "productId": "c67d6323-e8b1-4bdf-9a75-b0d0d2e7e914",
+          "quantity": 1,
+          "price": 300
+        }
+      ]
+    }
+  }
+}
